@@ -14,6 +14,11 @@
     --neutral:       #6b6a64;
     --neutral-tint:  #eeede9;
 
+    --bar-terminada:  #1F3864;
+    --bar-digitacion: #4472C4;
+    --bar-pendiente:  #9DC3E6;
+    --bar-anulada:    #9a988f;
+
     --surface-1:     #fcfcfb;
     --surface-2:     #f4f3f0;
     --page-plane:    #f9f9f7;
@@ -48,6 +53,11 @@
       --neutral:       #9a988f;
       --neutral-tint:  #2a2a27;
 
+      --bar-terminada:  #5B8DEF;
+      --bar-digitacion: #7FA8E8;
+      --bar-pendiente:  #BBD6F2;
+      --bar-anulada:    #9a988f;
+
       --surface-1:     #1a1a19;
       --surface-2:     #232320;
       --page-plane:    #0d0d0d;
@@ -76,6 +86,11 @@
     --serious-tint:  #3a2216;
     --neutral:       #9a988f;
     --neutral-tint:  #2a2a27;
+
+    --bar-terminada:  #5B8DEF;
+    --bar-digitacion: #7FA8E8;
+    --bar-pendiente:  #BBD6F2;
+    --bar-anulada:    #9a988f;
 
     --surface-1:     #1a1a19;
     --surface-2:     #232320;
@@ -200,10 +215,12 @@
   }
   .kpi-tile-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
   .kpi-tile-icon {
-    width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
     background: var(--tile-tint, var(--accent-tint)); color: var(--tile-accent, var(--accent)); flex-shrink: 0;
   }
-  .kpi-tile-icon svg { width: 15px; height: 15px; }
+  .kpi-tile-icon svg { width: 24px; height: 24px; }
+  .kpi-tile.compact .kpi-tile-icon { width: 36px; height: 36px; border-radius: 10px; }
+  .kpi-tile.compact .kpi-tile-icon svg { width: 20px; height: 20px; }
   .kpi-value { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1; }
   .kpi-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
   .kpi-sub { font-size: 0.75rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
@@ -224,7 +241,6 @@
   .panel-header-row h2 { margin-bottom: 0; }
 
   .table-scroll { overflow-x: auto; }
-  .table-scroll-tall { max-height: 480px; overflow-y: auto; border: 1px solid var(--gridline); border-radius: var(--radius-sm); }
 
   table { border-collapse: collapse; width: 100%; font-size: 0.8125rem; }
   thead th {
@@ -239,33 +255,19 @@
   td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   td.cell-empty { color: var(--text-muted); }
 
+  /* Excel-style grid tables (Afectación de vivienda / enseres): only header colored, full cell borders */
+  .table-grid thead th { background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent); }
+  .table-grid tbody td { border: 1px solid var(--gridline); }
+  .table-grid tbody tr:last-child td { border: 1px solid var(--gridline); }
+  .table-grid tbody tr.total-row td { border: 1px solid var(--baseline); }
+
   /* stacked progress bar for Estado por comuna */
   .stack-bar { display: flex; gap: 2px; width: 100%; min-width: 160px; height: 10px; border-radius: 5px; overflow: hidden; background: var(--gridline); }
   .stack-seg { height: 100%; }
-  .stack-seg.terminada  { background: var(--good); }
-  .stack-seg.digitacion { background: var(--warning); }
-  .stack-seg.pendiente  { background: var(--serious); }
-  .stack-seg.anulada    { background: var(--neutral); }
-
-  /* status pill */
-  .pill {
-    display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px;
-    font-size: 0.6875rem; font-weight: 700;
-  }
-  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .pill.terminada  { background: var(--good-tint);    color: var(--good); }
-  .pill.digitacion { background: var(--warning-tint); color: var(--warning); }
-  .pill.pendiente  { background: var(--serious-tint); color: var(--serious); }
-  .pill.anulada    { background: var(--neutral-tint); color: var(--neutral); }
-
-  /* filters */
-  .filters { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filters input, .filters select {
-    font: inherit; font-size: 0.8125rem; padding: 7px 10px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border-hair); background: var(--surface-1); color: var(--text-primary);
-  }
-  .filters input { min-width: 220px; }
-  .filters input:focus-visible, .filters select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .stack-seg.terminada  { background: var(--bar-terminada); }
+  .stack-seg.digitacion { background: var(--bar-digitacion); }
+  .stack-seg.pendiente  { background: var(--bar-pendiente); }
+  .stack-seg.anulada    { background: var(--bar-anulada); }
 
   .app-footer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 32px; }
 
@@ -312,7 +314,6 @@
     .panel { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; padding: 10px 12px; margin-bottom: 10px; }
     .panel-row { break-inside: avoid; }
     thead th { position: static; background: #f4f3f0; }
-    .table-scroll-tall { max-height: none; overflow: visible; border: none; }
     table { font-size: 10px; }
 
     .print-footer {
@@ -389,23 +390,9 @@
       </section>
     </section>
 
-    <section class="panel no-print">
-      <div class="panel-header-row">
-        <h2>Detalle por hogar (folio)</h2>
-        <div class="filters">
-          <input type="search" id="filterText" placeholder="Buscar folio, dirección, encuestador…" />
-          <select id="filterComuna"><option value="">Todas las comunas</option></select>
-          <select id="filterEstado">
-            <option value="">Todos los estados</option>
-            <option value="terminada">Terminada</option>
-            <option value="digitación">Digitación</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="anulada">Anulada</option>
-          </select>
-        </div>
-      </div>
-      <p id="detalleCount" class="panel-note" style="margin-bottom:8px;"></p>
-      <div class="table-scroll table-scroll-tall" id="detalleTableWrap"></div>
+    <section class="panel">
+      <h2>Estadísticas generales <span class="panel-note">— hogares con FIBE terminada</span></h2>
+      <div class="kpi-grid" id="statsGrid"></div>
     </section>
   </main>
 
@@ -550,10 +537,28 @@ function construirDataset(rows) {
     return { comuna: c, total: enComuna.length, ...cc };
   });
 
+  // Demografía (personas cuyo registro individual quedó "terminada")
+  const personasTerminadaRows = rows.filter(r => r['Estado folio'] === 'terminada');
+  const totalHombres = personasTerminadaRows.filter(r => r['Género'] === 'M').length;
+  const totalMujeres = personasTerminadaRows.filter(r => r['Género'] === 'F').length;
+  const totalNinos = personasTerminadaRows.filter(r => typeof r['Edad'] === 'number' && r['Edad'] < 18).length;
+  const totalAdultosMayores = personasTerminadaRows.filter(r => typeof r['Edad'] === 'number' && r['Edad'] >= 60).length;
+
+  const totalDestruidas = viviendaPivot.reduce((s, r) => s + r['Destruida'], 0);
+  const totalEnseresMuyAfectados = enseresPivot.reduce((s, r) => s + r['Muy afectados'], 0);
+
+  let comunaMayorAfectacion = { comuna: '—', score: 0 };
+  for (const r of viviendaPivot) {
+    const score = r['Destruida'] + r['Muy afectada'];
+    if (score > comunaMayorAfectacion.score) comunaMayorAfectacion = { comuna: r.comuna, score };
+  }
+
   return {
     folios, comunas, tiposEvento, minFecha, maxFecha, eventoLabel,
     counts, personasTotal, personasTerminada,
     viviendaCats, enseresCats, viviendaPivot, enseresPivot, estadoPorComuna,
+    totalHombres, totalMujeres, totalNinos, totalAdultosMayores,
+    totalDestruidas, totalEnseresMuyAfectados, comunaMayorAfectacion,
   };
 }
 
@@ -569,13 +574,6 @@ function esc(s) {
   if (s === null || s === undefined) return '';
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function diasDesde(d) {
-  if (!d) return null;
-  const hoy = new Date();
-  const hoyUTC = Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
-  return Math.round((hoyUTC - d.getTime()) / 86400000);
-}
-
 const ICONS = {
   home: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
   check: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
@@ -583,6 +581,13 @@ const ICONS = {
   alert: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.29 3.86-8.18 14.14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.89-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
   slash: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',
   users: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  man: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg>',
+  woman: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6.5" r="3.5"/><path d="M9 12h6l2 9H7l2-9Z"/><path d="M9.3 16h5.4"/></svg>',
+  child: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M8 21v-4a4 4 0 0 1 8 0v4"/></svg>',
+  elderly: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="6" r="3"/><path d="M6 21v-3.5a5 5 0 0 1 7.6-4.3"/><path d="M13.8 13.6 18 15.5l-2 5.3"/></svg>',
+  mapPin: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7.2-7-12a7 7 0 0 1 14 0c0 4.8-7 12-7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg>',
+  houseAlert: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><line x1="12" y1="13" x2="12" y2="17"/><circle cx="12" cy="19.4" r="0.35" fill="currentColor" stroke="none"/></svg>',
+  box: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8 12 3l9 5-9 5-9-5Z"/><path d="M3 8v9l9 5 9-5V8"/><line x1="12" y1="13" x2="12" y2="22"/></svg>',
 };
 
 const ESTADO_META = {
@@ -591,15 +596,6 @@ const ESTADO_META = {
   pendiente:   { label: 'Pendiente',   varAccent: '--serious', varTint: '--serious-tint', icon: ICONS.alert, cls: 'pendiente' },
   anulada:     { label: 'Anulada',     varAccent: '--neutral', varTint: '--neutral-tint', icon: ICONS.slash, cls: 'anulada' },
 };
-
-/* sequential-blue heatmap step for pivot tables */
-const SEQ_STEPS = ['--seq-100','--seq-150','--seq-200','--seq-250','--seq-300','--seq-350','--seq-400'];
-function seqStepFor(value, max) {
-  if (!value || !max) return null;
-  const ratio = value / max;
-  const idx = Math.min(SEQ_STEPS.length - 1, Math.round(ratio * (SEQ_STEPS.length - 1)));
-  return `var(${SEQ_STEPS[idx]})`;
-}
 
 /* ============================================================
    Estado de la app
@@ -664,8 +660,7 @@ function renderAll() {
   renderEstadoTable();
   renderPivotTable('viviendaTableWrap', DATA.viviendaCats, DATA.viviendaPivot);
   renderPivotTable('enseresTableWrap', DATA.enseresCats, DATA.enseresPivot);
-  populateFilters();
-  renderDetalleTable();
+  renderStats();
   const ts = new Date().toLocaleString('es-CL');
   $('genTimestamp').textContent = ' · generado ' + ts;
   $('genTimestampPrint').textContent = 'Generado ' + ts;
@@ -690,14 +685,14 @@ function renderMeta() {
     </div>`).join('');
 }
 
-function kpiTile({ icon, accentVar, tintVar, value, label, sub, compact }) {
+function kpiTile({ icon, accentVar, tintVar, value, label, sub, compact, small }) {
   const style = accentVar ? `--tile-accent:var(${accentVar});--tile-tint:var(${tintVar});` : '';
   return `
     <div class="kpi-tile${compact ? ' compact' : ''}" style="${style}">
       <div class="kpi-tile-icon">${icon}</div>
       <div>
         <div class="kpi-tile-head" ${compact ? 'style="display:block"' : ''}>
-          <div class="kpi-value">${value}</div>
+          <div class="kpi-value"${small ? ' style="font-size:1.2rem"' : ''}>${value}</div>
         </div>
         <div class="kpi-label">${esc(label)}</div>
         ${sub ? `<div class="kpi-sub">${sub}</div>` : ''}
@@ -753,7 +748,6 @@ function renderEstadoTable() {
       <td class="num">${r['digitación']}</td>
       <td class="num">${r.pendiente}</td>
       <td class="num">${r.anulada}</td>
-      <td class="num">${fmtPct(r.total ? r.terminada / r.total : 0)}</td>
     </tr>`).join('');
 
   const totalRow = `
@@ -765,21 +759,19 @@ function renderEstadoTable() {
       <td class="num">${totales['digitación']}</td>
       <td class="num">${totales.pendiente}</td>
       <td class="num">${totales.anulada}</td>
-      <td class="num">${fmtPct(totales.total ? totales.terminada / totales.total : 0)}</td>
     </tr>`;
 
   $('estadoTableWrap').innerHTML = `
     <table>
       <thead><tr>
         <th>Comuna</th><th class="num">Folios</th><th>Avance</th>
-        <th class="num">Terminada</th><th class="num">Digitación</th><th class="num">Pendiente</th><th class="num">Anulada</th><th class="num">% Terminada</th>
+        <th class="num">Terminada</th><th class="num">Digitación</th><th class="num">Pendiente</th><th class="num">Anulada</th>
       </tr></thead>
       <tbody>${bodyRows}${totalRow}</tbody>
     </table>`;
 }
 
 function renderPivotTable(wrapId, cats, pivot) {
-  const max = Math.max(1, ...pivot.flatMap(r => cats.map(c => r[c])));
   const totales = { total: 0 };
   cats.forEach(c => totales[c] = 0);
   for (const r of pivot) { cats.forEach(c => totales[c] += r[c]); totales.total += r.total; }
@@ -789,8 +781,7 @@ function renderPivotTable(wrapId, cats, pivot) {
       <td>${esc(r.comuna)}</td>
       ${cats.map(c => {
         const v = r[c];
-        const bg = seqStepFor(v, max);
-        return `<td class="num" style="${bg ? `background:${bg}` : ''}">${v || '<span class="cell-empty">–</span>'}</td>`;
+        return `<td class="num">${v || '<span class="cell-empty">–</span>'}</td>`;
       }).join('')}
       <td class="num" style="font-weight:700">${r.total}</td>
     </tr>`).join('');
@@ -803,59 +794,27 @@ function renderPivotTable(wrapId, cats, pivot) {
     </tr>`;
 
   document.getElementById(wrapId).innerHTML = `
-    <table>
+    <table class="table-grid">
       <thead><tr><th>Comuna</th>${cats.map(c => `<th class="num">${esc(c)}</th>`).join('')}<th class="num">Total</th></tr></thead>
       <tbody>${bodyRows}${totalRow}</tbody>
     </table>`;
 }
 
-function populateFilters() {
-  const sel = $('filterComuna');
-  sel.innerHTML = '<option value="">Todas las comunas</option>' + DATA.comunas.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
-}
-
-function renderDetalleTable() {
-  const text = $('filterText').value.trim().toLowerCase();
-  const comuna = $('filterComuna').value;
-  const estado = $('filterEstado').value;
-
-  const filtered = DATA.folios.filter(f => {
-    if (comuna && f.comuna !== comuna) return false;
-    if (estado && f.estadoFolio !== estado) return false;
-    if (text) {
-      const hay = `${f.folio} ${f.direccion} ${f.encuestador} ${f.poblacionSector || ''}`.toLowerCase();
-      if (!hay.includes(text)) return false;
-    }
-    return true;
-  });
-
-  $('detalleCount').textContent = `Mostrando ${filtered.length} de ${DATA.folios.length} hogares`;
-
-  const bodyRows = filtered.map(f => {
-    const meta = ESTADO_META[f.estadoFolio] || ESTADO_META.anulada;
-    const dias = diasDesde(f.fechaUltimaActualizacion);
-    return `
-    <tr>
-      <td>${esc(f.folio)}</td>
-      <td>${esc(f.comuna)}</td>
-      <td><span class="pill ${meta.cls}">${meta.label}</span></td>
-      <td class="num">${f.nIntegrantes}</td>
-      <td>${fmtFecha(f.fechaEncuestaje)}</td>
-      <td class="num">${dias === null ? '—' : dias}</td>
-      <td>${esc(f.direccion) || '<span class="cell-empty">—</span>'}</td>
-      <td>${esc(f.encuestador) || '<span class="cell-empty">—</span>'}</td>
-      <td>${esc(f.estadoVivienda) || '<span class="cell-empty">—</span>'}</td>
-    </tr>`;
-  }).join('');
-
-  $('detalleTableWrap').innerHTML = `
-    <table>
-      <thead><tr>
-        <th>Folio</th><th>Comuna</th><th>Estado</th><th class="num">Integrantes</th>
-        <th>Fecha encuestaje</th><th class="num">Días últ. act.</th><th>Dirección</th><th>Encuestador/a</th><th>Estado vivienda</th>
-      </tr></thead>
-      <tbody>${bodyRows || '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:24px">Sin resultados para este filtro</td></tr>'}</tbody>
-    </table>`;
+function renderStats() {
+  const tiles = [
+    kpiTile({ icon: ICONS.man, accentVar: '--accent', tintVar: '--accent-tint', value: DATA.totalHombres, label: 'Hombres' }),
+    kpiTile({ icon: ICONS.woman, accentVar: '--accent', tintVar: '--accent-tint', value: DATA.totalMujeres, label: 'Mujeres' }),
+    kpiTile({ icon: ICONS.child, accentVar: '--accent', tintVar: '--accent-tint', value: DATA.totalNinos, label: 'Niños, niñas y adolescentes' }),
+    kpiTile({ icon: ICONS.elderly, accentVar: '--accent', tintVar: '--accent-tint', value: DATA.totalAdultosMayores, label: 'Adultos mayores' }),
+    kpiTile({ icon: ICONS.mapPin, accentVar: ESTADO_META.pendiente.varAccent, tintVar: ESTADO_META.pendiente.varTint,
+      value: esc(DATA.comunaMayorAfectacion.comuna), small: true, label: 'Comuna con mayor afectación',
+      sub: `${DATA.comunaMayorAfectacion.score} viviendas destruidas o muy afectadas` }),
+    kpiTile({ icon: ICONS.houseAlert, accentVar: ESTADO_META.pendiente.varAccent, tintVar: ESTADO_META.pendiente.varTint,
+      value: DATA.totalDestruidas, label: 'Viviendas destruidas' }),
+    kpiTile({ icon: ICONS.box, accentVar: ESTADO_META['digitación'].varAccent, tintVar: ESTADO_META['digitación'].varTint,
+      value: DATA.totalEnseresMuyAfectados, label: 'Hogares con enseres muy afectados' }),
+  ];
+  $('statsGrid').innerHTML = tiles.join('');
 }
 
 /* ============================================================
@@ -919,9 +878,6 @@ $('btnChange').addEventListener('click', () => {
   $('fileInput').value = '';
   clearError();
 });
-$('filterText').addEventListener('input', renderDetalleTable);
-$('filterComuna').addEventListener('change', renderDetalleTable);
-$('filterEstado').addEventListener('change', renderDetalleTable);
 
 const dropZone = $('uploadZone');
 ['dragenter', 'dragover'].forEach(evt => dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }));
